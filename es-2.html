@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+        <title>¡Usemos Bootstrap!</title>
+    </head>
+    <body>
+        <div class="container-fluid min-vh-100">
+            <header class="row">
+                <div class="col-10 col-lg-11">
+                    <p class="mt-2 mb-1"><a href="eslabon.html">Portada</a></p>
+                </div>
+                <div class="col-2 col-lg-1 text-end">
+                    <p class="mt-2 mb-1 d-flex justify-content-between"><a href="es-1.html">es-1</a> <a href="es-2.html" class="link-danger">es-2</a> <a href="es-3.html">es-3</a></p>
+                </div>
+            </header>
+            <main class="row g-0" style="height: 85vh;">
+                <div class="col" id="aqui"></div>
+            </main>
+            <footer class="row">
+                <div class="col">
+                    <p class="mt-3 mb-auto text-center text-muted small">Este es un párrafo centrado, con letra muteada y chica.</p>
+                </div>
+            </footer>
+        </div>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"
+            integrity="sha512-NxocnqsXP3zm0Xb42zqVMvjQIktKEpTIbCXXyhBPxqGZHqhcOXHs4pXI/GoZ8lE+2NJONRifuBpi9DxC58L0Lw=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <script>
+            var x, y;
+            var espacio = document.querySelector("main");
+            function setup() {
+                x = espacio.offsetWidth;
+                y = espacio.offsetHeight;
+                createCanvas(x, y).parent("aqui");
+                frameRate(3);
+            }
+
+            function windowResized() {
+                x = espacio.offsetWidth;
+                y = espacio.offsetHeight;
+                resizeCanvas(x, y);
+            }
+
+            class Particle {
+                constructor() {
+                    this.x = random(0, width);
+                    this.y = random(0, height);
+                    this.r = random(1, 8);
+                    this.xSpeed = random(-2, 2);
+                    this.ySpeed = random(-1, 1.5);
+                }
+
+                createParticle() {
+                    noStroke();
+                    fill("rgba(200,169,169,0.5)");
+                    circle(this.x, this.y, this.r);
+                }
+
+                moveParticle() {
+                    if (this.x < 0 || this.x > width) this.xSpeed *= -1;
+                    if (this.y < 0 || this.y > height) this.ySpeed *= -1;
+                    this.x += this.xSpeed;
+                    this.y += this.ySpeed;
+                }
+
+                joinParticles(paraticles) {
+                    particles.forEach((element) => {
+                        let dis = dist(this.x, this.y, element.x, element.y);
+                        if (dis < 85) {
+                            stroke("rgba(255,255,255,0.04)");
+                            line(this.x, this.y, element.x, element.y);
+                        }
+                    });
+                }
+            }
+
+            let particles = [];
+
+            function setup() {
+                createCanvas(720, 400);
+                for (let i = 0; i < width / 10; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function draw() {
+                background("#0f0f0f");
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].createParticle();
+                    particles[i].moveParticle();
+                    particles[i].joinParticles(particles.slice(i));
+                }
+            }
+        </script>
+    </body>
+</html>

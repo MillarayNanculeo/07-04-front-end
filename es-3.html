@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+        <title>¡Usemos Bootstrap!</title>
+    </head>
+    <body>
+        <div class="container-fluid min-vh-100">
+            <header class="row">
+                <div class="col-10 col-lg-11">
+                    <p class="mt-2 mb-1"><a href="eslabon.html">Portada</a></p>
+                </div>
+                <div class="col-2 col-lg-1 text-end">
+                    <p class="mt-2 mb-1 d-flex justify-content-between"><a href="es-1.html">es-1</a> <a href="es-2.html">es-2</a> <a href="es-3.html" class="link-danger">es-3</a></p>
+                </div>
+            </header>
+            <main class="row g-0" style="height: 85vh;">
+                <div class="col" id="aqui"></div>
+            </main>
+            <footer class="row">
+                <div class="col">
+                    <p class="mt-3 mb-auto text-center text-muted small">Este es un párrafo centrado, con letra muteada y chica.</p>
+                </div>
+            </footer>
+        </div>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"
+            integrity="sha512-NxocnqsXP3zm0Xb42zqVMvjQIktKEpTIbCXXyhBPxqGZHqhcOXHs4pXI/GoZ8lE+2NJONRifuBpi9DxC58L0Lw=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <script>
+            var a, b;
+            var espacio = document.querySelector("main");
+
+            let x = 100,
+                y = 100,
+                angle1 = 0.0,
+                segLength = 50;
+
+            function setup() {
+                a = espacio.offsetWidth;
+                b = espacio.offsetHeight;
+                createCanvas(a, b).parent("aqui");
+                strokeWeight(20.0);
+                stroke(255, 100);
+            }
+            function draw() {
+                background(0);
+
+                dx = mouseX - x;
+                dy = mouseY - y;
+                angle1 = atan2(dy, dx);
+                x = mouseX - cos(angle1) * segLength;
+                y = mouseY - sin(angle1) * segLength;
+
+                segment(x, y, angle1);
+                ellipse(x, y, 20, 20);
+            }
+
+            function segment(x, y, a) {
+                push();
+                translate(x, y);
+                rotate(a);
+                line(0, 0, segLength, 0);
+                pop();
+            }
+
+            function windowResized() {
+                x = espacio.offsetWidth;
+                y = espacio.offsetHeight;
+                resizeCanvas(x, y);
+            }
+        </script>
+    </body>
+</html>
